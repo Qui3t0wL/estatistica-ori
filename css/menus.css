@@ -1,0 +1,39 @@
+#zonaMenu {
+	FONT-SIZE: 11px; 
+	WIDTH: 166px; 
+	COLOR: #000; 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+}
+#zonaMenu LI {
+	MARGIN-LEFT: 0px;
+}
+#zonaMenu LI {
+	LIST-STYLE-IMAGE: none; 
+	MARGIN-BOTTOM: 2px; 
+	MARGIN-LEFT: -43px; 
+	LIST-STYLE-TYPE: none;
+}
+#zonaMenu A {
+	PADDING-RIGHT: 5px; 
+	DISPLAY: block; 
+	PADDING-LEFT: 5px; 
+	FONT-WEIGHT: normal; 
+	PADDING-BOTTOM: 5px; 
+	WIDTH: 150px; 
+	PADDING-TOP: 5px; 
+	BACKGROUND-COLOR: #f90;
+	TEXT-DECORATION: none
+}
+#zonaMenu A:link {
+	COLOR: #000; 
+	TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #000; 
+	TEXT-DECORATION: none
+}
+#zonaMenu A:hover {
+	FONT-WEIGHT: bold; 
+	COLOR: #fff; 
+	BACKGROUND-COLOR: #333
+}
