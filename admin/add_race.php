@@ -5,9 +5,9 @@
 	include ('./../header.php');
 	include ('./menu_lateral.php');
 	
-	$tipo_prova = mysql_query("SELECT id_tipo_prova, designacao_prova FROM tipo_prova") or die(mysql_error());
-	$tipo_distancia = mysql_query("SELECT id_distancia, designacao_dist FROM tipo_distancia") or die(mysql_error());
-	$organizacao = mysql_query("SELECT DISTINCT organizacao FROM prova ORDER BY organizacao ASC") or die(mysql_error());
+	$tipo_prova = mysqli_query($link, "SELECT id_tipo_prova, designacao_prova FROM tipo_prova") or die(mysqli_error());
+	$tipo_distancia = mysqli_query($link, "SELECT id_distancia, designacao_dist FROM tipo_distancia") or die(mysqli_error());
+	$organizacao = mysqli_query($link, "SELECT DISTINCT organizacao FROM prova ORDER BY organizacao ASC") or die(mysqli_error());
 ?>
 	<script language="javascript" src="./../calendar/calendar.js"></script>
 	<center><p><b>INSERIR PROVA</b></p><br><br>
@@ -35,13 +35,13 @@
 			</tr>
 			<tr>
 				<td><b>Tipo Prova: </b></td>
-				<td><select name="id_prova"><?php while ($prova = mysql_fetch_assoc($tipo_prova)) {?>
+				<td><select name="id_prova"><?php while ($prova = mysqli_fetch_assoc($tipo_prova)) {?>
 				<option value="<?php echo $prova['id_tipo_prova'];?>"><?php echo $prova['designacao_prova']; }?></option></select></td>
-				<td><b>Tipo Distância: </b></td>
-				<td><select name="id_distancia"><?php while ($distancia = mysql_fetch_assoc($tipo_distancia)) {?>
+				<td><b>Tipo Distï¿½ncia: </b></td>
+				<td><select name="id_distancia"><?php while ($distancia = mysqli_fetch_assoc($tipo_distancia)) {?>
 				<option value="<?php echo $distancia['id_distancia'];?>"><?php echo $distancia['designacao_dist']; }?></option></select></td>			
 				<td><b>Org. </b></td>
-				<td><select name="organizacao"><?php while ($org = mysql_fetch_assoc($organizacao)) {?>
+				<td><select name="organizacao"><?php while ($org = mysqli_fetch_assoc($organizacao)) {?>
 				<option value="<?php echo $org['organizacao'];?>"><?php echo $org['organizacao']; }?></option></select></td>
 			</tr>
 			

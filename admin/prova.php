@@ -12,15 +12,15 @@
     
     $id_prova = trim($_GET['id']);
     //$id_prova = trim($_POST['id_prova']);
-    $dados_prova = mysql_query("SELECT DATE_FORMAT(date,'%d/%m/%Y') as data, local, event_name, s.season_desc se, d.dist_desc di, o.abbrev cl, r.race_type_desc tp, c.class_desc esc FROM race, distance d, season s, organizers o, race_type r, results re, class c WHERE race.id_race = re.id_race AND race.id_season = s.id_season AND race.id_dist = d.id_dist AND race.id_org1 = o.id_org AND race.id_race_type = r.id_race_type AND re.id_class = c.id_class AND race.id_race = $id_prova") or die(mysql_error());
+    $dados_prova = mysqli_query($link, "SELECT DATE_FORMAT(date,'%d/%m/%Y') as data, local, event_name, s.season_desc se, d.dist_desc di, o.abbrev cl, r.race_type_desc tp, c.class_desc esc FROM race, distance d, season s, organizers o, race_type r, results re, class c WHERE race.id_race = re.id_race AND race.id_season = s.id_season AND race.id_dist = d.id_dist AND race.id_org1 = o.id_org AND race.id_race_type = r.id_race_type AND re.id_class = c.id_class AND race.id_race = $id_prova") or die(mysqli_error());
     
-    $race = mysql_query("SELECT classif, name, id_country, club, time, time_behind, mp, nc FROM data WHERE id_race = $id_prova ORDER BY nc, mp, time ASC") or die(mysql_error());
+    $race = mysqli_query($link, "SELECT classif, name, id_country, club, time, time_behind, mp, nc FROM data WHERE id_race = $id_prova ORDER BY nc, mp, time ASC") or die(mysqli_error());
 ?>
 
     <center>    
     <table id="prova">
         <tr>
-            <td style="text-align:right"><b>Prova: </b></td><td><?php $r = mysql_fetch_assoc($dados_prova); echo $r['event_name'];?></td> 			
+            <td style="text-align:right"><b>Prova: </b></td><td><?php $r = mysqli_fetch_assoc($dados_prova); echo $r['event_name'];?></td> 			
             <td style="text-align:right"><b>&Eacute;poca: </b></td><td><?php echo $r['se'];?></td>
         </tr>
         <tr>
@@ -46,7 +46,7 @@
 			<td id="rank_table_header" style="text-align:center"><b>Dif. de tempo</b></td>
             <td></td>
         </tr>
-            <?php while ($row = mysql_fetch_assoc($race)) {?>
+            <?php while ($row = mysqli_fetch_assoc($race)) {?>
                 
                 <tr>
 			<td style="text-align:center"><?php 

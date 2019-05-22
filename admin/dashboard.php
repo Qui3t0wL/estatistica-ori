@@ -9,7 +9,7 @@ $count = 1;
 
 //$num_provas = mysql_query("") or die(mysql_error());
 
-$sums = mysql_query("SELECT s.season_desc epoca, count(*) as provas, sum(r.length) kms, sum(r.controls) pontos FROM results r, race ra, season s WHERE r.id_race = ra.id_race AND ra.id_season = s.id_season GROUP BY s.id_season ASC") or die(mysql_error());
+$sums = mysqli_query($link, "SELECT s.season_desc epoca, count(*) as provas, sum(r.length) kms, sum(r.controls) pontos FROM results r, race ra, season s WHERE r.id_race = ra.id_race AND ra.id_season = s.id_season GROUP BY s.id_season ASC") or die(mysqli_error());
 
 ?>
 
@@ -26,7 +26,7 @@ $sums = mysql_query("SELECT s.season_desc epoca, count(*) as provas, sum(r.lengt
         <td width="100px" style="text-align:center">&nbsp;<b>Kms feitos</b></td>
         <td width="140px" style="text-align:center"><b>Pontos controlados</b></td>
 	</tr>
-    <?php while ($somas = mysql_fetch_assoc($sums)){?>
+    <?php while ($somas = mysqli_fetch_assoc($sums)){?>
     <tr class="d<?php echo ($count & 1); ?>">
         <td style="text-align:center"><?php echo $somas['epoca'];?></td>
   		<td style="text-align:center"><?php echo $somas['provas'];?></td>
@@ -43,7 +43,7 @@ $sums = mysql_query("SELECT s.season_desc epoca, count(*) as provas, sum(r.lengt
 
 
 <form method="post" action="load_race.php" style="text-align:left; text-indent: 300px;">
-Escolha a época: <select name="epoca" >
+Escolha a ï¿½poca: <select name="epoca" >
 	<option value="2011">2011</option>
 </select>
 <input type="submit" value="OK">

@@ -12,10 +12,10 @@
 	$organizacao = $_POST['organizacao'];
 	
 	if (($nome && $local && $data && $id_prova && $id_distancia && $organizacao) != ''){
-		$result = mysql_query("SELECT * FROM prova WHERE data_prova = '$data' AND organizacao = '$organizacao'") or die(mysql_error());
+		$result = mysqli_query($link, "SELECT * FROM prova WHERE data_prova = '$data' AND organizacao = '$organizacao'") or die(mysqli_error());
 
-		if (mysql_num_rows($result) == 0) {
-			$insert = mysql_query("INSERT INTO prova (nome_prova, local, data_prova, id_tipo_prova, id_distancia, organizacao) VALUES ('$nome', '$local', '$data', '$id_prova', '$id_distancia', '$organizacao')") or die(mysql_error());
+		if (mysqli_num_rows($result) == 0) {
+			$insert = mysqli_query($link, "INSERT INTO prova (nome_prova, local, data_prova, id_tipo_prova, id_distancia, organizacao) VALUES ('$nome', '$local', '$data', '$id_prova', '$id_distancia', '$organizacao')") or die(mysqli_error());
 			echo '<br><br><br><center>Foi inserida com sucesso a prova: <br><b>'.$nome.'</b>, realizada em <b>'.$local.'</b> no dia <b>'.$data.'</b>, organizada pelo <b>'.$organizacao.'</b>.</center><br><br><br><meta http-equiv="refresh" content="3; ./dashboard.php" />';
 		} else {
 			echo '<br><br><br><center>J&aacute; existe uma prova no mesmo dia (<b>'.$data.'</b>) organizada pelo mesmo clube <b>('.$organizacao.')</b>.</center><br><br><br><meta http-equiv="refresh" content="3; ./add_race.php" /> ';

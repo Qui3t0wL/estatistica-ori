@@ -6,7 +6,7 @@
 	
 	//$epoca = $_SESSION['EPOCA'];
 	
-	$result = mysql_query("SELECT id_race, event_name, DATE_FORMAT(date,'%d/%m/%Y') as data, dist_desc FROM race, distance WHERE race.id_dist = distance.id_dist AND date <= now() ORDER BY date") or die(mysql_error());
+	$result = mysqli_query($link, "SELECT id_race, event_name, DATE_FORMAT(date,'%d/%m/%Y') as data, dist_desc FROM race, distance WHERE race.id_dist = distance.id_dist AND date <= now() ORDER BY date") or die(mysqli_error());
 ?>
 	<center><p><b>CARREGAR FICHEIRO</b></p></center>
 	<form action="csv_upload_done.php" enctype="multipart/form-data" method="post">
@@ -17,7 +17,7 @@
         <tr> 
           <td><b>Prova:</b></td>
           <td>
-          <select name="prova"><?php while ($row = mysql_fetch_assoc($result)) {?>
+          <select name="prova"><?php while ($row = mysqli_fetch_assoc($result)) {?>
           	<option value="<?php echo $row['id_race'];?>"><?php echo $row['data'];?> | <?php echo $row['event_name'];?> | <?php echo $row['dist_desc']; }?></option>
           </select>
           </td>
