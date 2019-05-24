@@ -43,7 +43,7 @@ $sums = mysqli_query($link, "SELECT s.season_desc epoca, count(*) as provas, sum
 
 
 <form method="post" action="load_race.php" style="text-align:left; text-indent: 300px;">
-Escolha a �poca: <select name="epoca" >
+Escolha a época: <select name="epoca" >
 	<option value="2011">2011</option>
 </select>
 <input type="submit" value="OK">

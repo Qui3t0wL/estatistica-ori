@@ -12,7 +12,7 @@
     
     $id_prova = trim($_GET['id']);
     //$id_prova = trim($_POST['id_prova']);
-    $dados_prova = mysqli_query($link, "SELECT DATE_FORMAT(date,'%d/%m/%Y') as data, local, event_name, s.season_desc se, d.dist_desc di, o.abbrev cl, r.race_type_desc tp, c.class_desc esc FROM race, distance d, season s, organizers o, race_type r, results re, class c WHERE race.id_race = re.id_race AND race.id_season = s.id_season AND race.id_dist = d.id_dist AND race.id_org1 = o.id_org AND race.id_race_type = r.id_race_type AND re.id_class = c.id_class AND race.id_race = $id_prova") or die(mysqli_error());
+    $dados_prova = mysqli_query($link, "SELECT DATE_FORMAT(date,'%d/%m/%Y') as data, local, event_name, s.season_desc se, d.dist_desc di, o.abbrev cl, r.race_type_desc tp, c.class_desc esc FROM race, distance d, season s, clubs o, race_type r, results re, class c WHERE race.id_race = re.id_race AND race.id_season = s.id_season AND race.id_dist = d.id_dist AND race.id_org1 = o.id_org AND race.id_race_type = r.id_race_type AND re.id_class = c.id_class AND race.id_race = $id_prova") or die(mysqli_error());
     
     $race = mysqli_query($link, "SELECT classif, name, id_country, club, time, time_behind, mp, nc FROM data WHERE id_race = $id_prova ORDER BY nc, mp, time ASC") or die(mysqli_error());
 ?>

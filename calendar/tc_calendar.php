@@ -68,7 +68,7 @@
 //
 //********************************************************
 
-class tc_calendar{
+class tc_calendar_{
 	var $icon;
 	var $objname;
 	var $txt = "Select"; //display when no calendar icon found or set up
@@ -86,7 +86,7 @@ class tc_calendar{
 	var $height = 205;
 	
 	var $year_start = 2011;
-	var $year_end = 2014;
+	var $year_end = 2050;
 	
 	var $startMonday = true;
 	

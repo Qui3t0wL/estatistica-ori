@@ -12,7 +12,7 @@
 	include ('./../header.php');
 	include ('./menu_lateral.php');
 
-	$race = mysqli_query($link, "SELECT id_race, DATE_FORMAT(date,'%d/%m/%Y') dat, local, event_name, o.abbrev ab, rt.race_type_desc rat FROM race r, organizers o, race_type rt WHERE id_season = 12 AND r.id_org1 = o.id_org AND r.id_race_type = rt.id_race_type ORDER BY date ASC") or die(mysqli_error());
+	$race = mysqli_query($link, "SELECT id_race, DATE_FORMAT(date,'%d/%m/%Y') dat, local, event_name, o.abbrev ab, rt.race_type_desc rat FROM race r, organizers o, race_type rt WHERE id_season = 12 AND r.id_org1 = o.id_org AND r.id_race_type = rt.id_race_type ORDER BY date ASC") or die(mysqli_error($link));
 	
 ?>
     <center><p><b>INSERIR PROVA</b></p><br><br>
@@ -29,7 +29,7 @@
             </tr>
             <?php while ($row = mysqli_fetch_assoc($race)) {
             //$tipo_prova = mysqli_query($link, "SELECT id_race_type, race_type_desc FROM race_type") or die(mysqli_error());
-            $tipo_distancia = mysqli_query($link, "SELECT id_dist, dist_desc FROM distance") or die(mysqli_error());
+            $tipo_distancia = mysqli_query($link, "SELECT id_dist, dist_desc FROM distance") or die(mysqli_error($link));
             //$organizacao1 = mysqli_query($link, "SELECT id_org, abbrev FROM organizers GROUP BY abbrev ASC") or die(mysqli_error());
             //$organizacao2 = mysqli_query($link, "SELECT id_org, abbrev FROM organizers GROUP BY abbrev ASC") or die(mysqli_error());
             ?>

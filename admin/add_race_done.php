@@ -9,10 +9,11 @@
 	$data = trim($_POST['date5']);
 	$id_prova = trim($_POST['id_prova']);
 	$id_distancia = trim($_POST['id_distancia']);
-	$organizacao = $_POST['organizacao'];
+	$organizacao1 = $_POST['organizacao1'];
+	$organizacao2 = $_POST['organizacao2'];
 	
-	if (($nome && $local && $data && $id_prova && $id_distancia && $organizacao) != ''){
-		$result = mysqli_query($link, "SELECT * FROM prova WHERE data_prova = '$data' AND organizacao = '$organizacao'") or die(mysqli_error());
+	if (($nome && $local && $data && $id_prova && $id_distancia && $organizacao1 && $organizacao2) != ''){
+		$result = mysqli_query($link, "SELECT * FROM prova WHERE data_prova = '$data' AND organizacao = '$organizacao'") or die(mysqli_error($link));
 
 		if (mysqli_num_rows($result) == 0) {
 			$insert = mysqli_query($link, "INSERT INTO prova (nome_prova, local, data_prova, id_tipo_prova, id_distancia, organizacao) VALUES ('$nome', '$local', '$data', '$id_prova', '$id_distancia', '$organizacao')") or die(mysqli_error());
