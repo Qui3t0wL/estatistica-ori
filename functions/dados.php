@@ -1,13 +1,8 @@
 <?php
 
-/**
- * @author 
- * @copyright 2012
- */
-
 function velocidade($tempo, $distancia)
 {
-    $time = split(":",$tempo);
+    $time = explode(":",$tempo);
     
     if($time[0] > "04"){
 		$time_minutos = ($time[0]*60+$time[1])/60;
