@@ -9,7 +9,7 @@ $count = 1;
 
 //$num_provas = mysql_query("") or die(mysql_error());
 
-$sums = mysqli_query($link, "SELECT s.season_desc epoca, count(*) as provas, sum(r.length) kms, sum(r.controls) pontos FROM results r, race ra, season s WHERE r.id_race = ra.id_race AND ra.id_season = s.id_season GROUP BY s.id_season ASC") or die(mysqli_error());
+$sums = mysqli_query($link, "SELECT s.season_desc epoca, count(*) as provas, round(sum(r.LENGTH),2) kms, sum(r.controls) pontos FROM results r, race ra, season s WHERE r.id_race = ra.id_race AND ra.id_season = s.id_season GROUP BY s.id_season ASC") or die(mysqli_error());
 
 ?>
 
@@ -23,7 +23,7 @@ $sums = mysqli_query($link, "SELECT s.season_desc epoca, count(*) as provas, sum
 		<td width="%" style="text-align:center">&nbsp;<b>Sprint</b></td>
         <td width="%" style="text-align:center">&nbsp;<b>M&eacute;dia</b></td>
         <td width="%" style="text-align:center">&nbsp;<b>Longa</b></td>
-        <td width="100px" style="text-align:center">&nbsp;<b>Kms feitos</b></td>
+        <td width="100px" style="text-align:center">&nbsp;<b>Kms totais</b></td>
         <td width="140px" style="text-align:center"><b>Pontos controlados</b></td>
 	</tr>
     <?php while ($somas = mysqli_fetch_assoc($sums)){?>
