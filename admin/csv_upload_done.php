@@ -5,7 +5,7 @@
 	include ('./menu_lateral.php');
     
     include "./../functions/verifica_atleta.php";
-    //include "./../functions/dados.php";
+    include "./../functions/dados.php";
 	
 	$prova = $_POST['prova'];
 	$allowedExtension = array("csv");

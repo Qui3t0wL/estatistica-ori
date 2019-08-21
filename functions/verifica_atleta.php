@@ -25,6 +25,7 @@ function new_csv_version($file) {
 function verifica_atleta($prova, $new, $link) {
 
 	require_once "./../admin/connect.php";
+	//include "dados.php";
 	
 	$dados = array();
 	$handler = fopen("./../files/prova_".$prova.".csv", "r");
@@ -32,7 +33,7 @@ function verifica_atleta($prova, $new, $link) {
 		// verifica que tipo de ficheiro e'
 		if ($new == 1) {
 			while (($data = fgetcsv($handler, 1000, ";")) !== FALSE) {
-				if($data[4] == "3555" AND ($data[6] == "Filipe" AND $data[5] == "Dias")){
+				if($data[4] == "3555" AND (strtolower($data[6]) == "filipe" AND strtolower($data[5]) == "dias")){
 					for ($k=0; $k <= sizeof($data); $k++){
 						if(!isset($data[$k])){
 							$dados[$k] = null;
@@ -44,15 +45,16 @@ function verifica_atleta($prova, $new, $link) {
 					while ($esc = mysqli_fetch_assoc($escaloes)) {
 						// verifica se o escalao esta na base de dados
 						if ($dados[25] == $esc['class_desc']) {
+							$time = converte_tempo($dados[13]);
 							// verifica se fiz MP
 							if ($dados[14] == 0) {
 								$id_cl = $esc['id_class'];
 								$length = str_replace(",",".",$dados[54]);
-								$sql_insert = mysqli_query($link, "INSERT INTO results(id_race, id_class, length, controls, climb, classif, mytime, mp) VALUES('$prova','$id_cl','$length','$dados[56]','$dados[55]','$dados[57]','$dados[13]','0')") or die(mysqli_error($link));
+								$sql_insert = mysqli_query($link, "INSERT INTO results(id_race, id_class, length, controls, climb, classif, mytime, mp) VALUES('$prova','$id_cl','$length','$dados[56]','$dados[55]','$dados[57]','$time','0')") or die(mysqli_error($link));
 							} else {
 								$id_cl = $esc['id_class'];
 								$length = str_replace(",",".",$dados[54]);
-								$sql_insert = mysqli_query($link, "INSERT INTO results(id_race, id_class, length, controls, climb, classif, mytime, mp) VALUES('$prova','$id_cl','$length','$dados[56]','$dados[55]','$dados[57]','$dados[13]','1')") or die(mysqli_error($link));
+								$sql_insert = mysqli_query($link, "INSERT INTO results(id_race, id_class, length, controls, climb, classif, mytime, mp) VALUES('$prova','$id_cl','$length','$dados[56]','$dados[55]','$dados[57]','$time','1')") or die(mysqli_error($link));
 							}
 						}
 					}
@@ -61,7 +63,7 @@ function verifica_atleta($prova, $new, $link) {
 			}
 		} else {
 			while (($data = fgetcsv($handler, 1000, ";")) !== FALSE) {
-				if($data[2] == "3555" AND ($data[4] == "Filipe" AND $data[3] = "Dias")){
+				if($data[2] == "3555" AND (strtolower($data[4]) == "filipe" AND strtolower($data[3]) == "dias")){
 				
 					for ($k=0; $k <= sizeof($data); $k++){
 						if(!isset($data[$k])){
@@ -74,15 +76,16 @@ function verifica_atleta($prova, $new, $link) {
 					while ($esc = mysqli_fetch_assoc($escaloes)) {
 						
 						if ($dados[18] == $esc['class_desc']) {
+							$time = converte_tempo($dados[11]);
 							// verifica se fiz MP
 							if ($dados[12] == 0) {
 								$id_cl = $esc['id_class'];
 								$length = str_replace(",",".",$dados[40]);
-								$sql_insert = mysqli_query($link, "INSERT INTO results(id_race, id_class, length, controls, climb, classif, mytime, mp) VALUES('$prova','$id_cl','$length','$dados[42]','$dados[41]','$dados[43]','$dados[11]','0')") or die(mysql_error($link));
+								$sql_insert = mysqli_query($link, "INSERT INTO results(id_race, id_class, length, controls, climb, classif, mytime, mp) VALUES('$prova','$id_cl','$length','$dados[42]','$dados[41]','$dados[43]','$time','0')") or die(mysql_error($link));
 							} else {
 								$id_cl = $esc['id_class'];
 								$length = str_replace(",",".",$dados[40]);
-								$sql_insert = mysqli_query($link, "INSERT INTO results(id_race, id_class, length, controls, climb, classif, mytime, mp) VALUES('$prova','$id_cl','$length','$dados[42]','$dados[41]','$dados[43]','$dados[11]','1')") or die(mysql_error($link));
+								$sql_insert = mysqli_query($link, "INSERT INTO results(id_race, id_class, length, controls, climb, classif, mytime, mp) VALUES('$prova','$id_cl','$length','$dados[42]','$dados[41]','$dados[43]','$time','1')") or die(mysql_error($link));
 							}
 						}
 					}
@@ -96,7 +99,7 @@ function verifica_atleta($prova, $new, $link) {
 function insert_data_db ($prova, $new, $link) {
 	
 	require_once "./../admin/connect.php";
-	include "dados.php";
+	//include "dados.php";
 
 	$handler = fopen("./../files/prova_".$prova.".csv", "r");
 	$escalao = mysqli_query($link, "SELECT r.id_class, class_desc FROM results r, class c WHERE r.id_class = c.id_class AND r.id_race = '$prova'") or die(mysqli_error($link));
@@ -117,16 +120,17 @@ function insert_data_db ($prova, $new, $link) {
 				$length = str_replace(",",".",$dados[54]);
 				$name = $dados[6]." ".$dados[5];
 				$club = clean($dados[20], $link);
+				$time = converte_tempo($dados[13]);
 				
-				if($row==1) {$winner=$dados[13];$row=0;}
-				$time_behind = getMyTimeDiff($dados[13],$winner);
+				if($row==1) {$winner = converte_tempo($dados[13]);$row=0;}
+				$time_behind = getMyTimeDiff($time,$winner);
 
 				if($dados[4]>9999 OR $dados[4] == null ){
 					$bib = $dados[1];
 				}else
 					$bib = $dados[4];
 
-				$sql_insert = mysqli_query($link, "INSERT INTO data(id_race, class, classif, bib, name, id_country, club, time, time_behind, mp, nc) VALUES('$prova','$id_cl',IF('$dados[14]'>0,0,'$dados[57]'),'$bib','$name','$dados[21]','$club','$dados[13]','$time_behind',IF('$dados[14]'>0,1,0),IF('$dados[10]'>0,1,0))") or die(mysqli_error($link));
+				$sql_insert = mysqli_query($link, "INSERT INTO data(id_race, class, classif, bib, name, id_country, club, time, time_behind, mp, nc) VALUES('$prova','$id_cl',IF('$dados[14]'>0,0,'$dados[57]'),'$bib','$name','$dados[21]','$club','$time','$time_behind',IF('$dados[14]'>0,1,0),IF('$dados[10]'>0,1,0))") or die(mysqli_error($link));
 			}
 		}
 	} else {
@@ -138,17 +142,16 @@ function insert_data_db ($prova, $new, $link) {
 					$dados[$k] = $data[$k];
 			}
 			if ($dados[18] == $esc['class_desc']) {
-				// ainda nao testado com ficheiros antigos
-				//echo "YES";
+
 				$id_cl = $esc['class_desc'];
 				$length = str_replace(",",".",$dados[40]);
 				$name = $dados[4]." ".$dados[3];
 				$club = clean($dados[15], $link);
+				$time = converte_tempo($dados[11]);
 				
 				// guarda o tempo do vencedor
-				if($row==1) {$winner=$dados[11];$row=0;}
-				$time_behind = getMyTimeDiff($dados[11],$winner);
-				
+				if($row==1) {$winner = converte_tempo($dados[11]);$row=0;}
+		
 				//verifica o numero do peitoral
 				if($dados[2]>9999 OR $dados[2] == null ){
 					$bib = $dados[0];
@@ -156,9 +159,24 @@ function insert_data_db ($prova, $new, $link) {
 					$bib = $dados[2];
 
 				// verifica se fez MP ou se e NC
-				if($dados[12] > 0 OR $dados[8] == 'X' ) {$cl=0;} else $cl=$dados[43];
+				if($dados[8] == 'X') {
+					// NC
+					$cl=0;
+					$nc=1;
+					$time_behind = getMyTimeDiff($time,$winner);
+				} elseif ($dados[12] > 0 ) {
+					// MP
+					$cl=0;
+					$nc=0;
+					$time="00:00:00";
+					$time_behind="00:00:00";
+				} else {
+					$cl=$dados[43];
+					$nc=0;
+					$time_behind = getMyTimeDiff($time,$winner);
+				}
 
-				$sql_insert = mysqli_query($link, "INSERT INTO data(id_race, class, classif, bib, name, id_country, club, time, time_behind, mp, nc) VALUES('$prova','$id_cl','$cl','$bib','$name','$dados[16]','$club','$dados[11]','$time_behind',IF('$dados[12]'>0,1,0),IF('$cl'=0,1,0))") or die(mysqli_error($link));
+				$sql_insert = mysqli_query($link, "INSERT INTO data(id_race, class, classif, bib, name, id_country, club, time, time_behind, mp, nc) VALUES('$prova','$id_cl','$cl','$bib','$name','$dados[16]','$club','$time','$time_behind',IF('$dados[12]'>0,1,0),IF('$nc'=1,1,0))") or die(mysqli_error($link));
 			}
 		}
 	}
